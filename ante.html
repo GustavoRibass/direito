@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho Final - Direito & IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2a3a;
+            --gold: #c5a059;
+            --gold-light: #e0c9a6;
+            --text: #2d3436;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --pop-curve: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(rgba(26, 42, 58, 0.9), rgba(26, 42, 58, 0.9)), 
+                        url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+            border-bottom: 6px solid var(--gold);
+        }
+
+        header h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+            color: var(--gold-light);
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--gold);
+            background: rgba(197, 160, 89, 0.1);
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .container { max-width: 1000px; margin: 60px auto; padding: 0 25px; }
+
+        section {
+            background: var(--white);
+            padding: 50px;
+            margin-bottom: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            scroll-margin-top: 120px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out, var(--pop-curve);
+        }
+
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            border-color: var(--gold);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--gold), transparent);
+            margin-left: 20px;
+        }
+
+        .tag {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+        
+        .card-inner { 
+            padding: 30px; 
+            border-radius: 12px; 
+            height: 100%;
+            transition: var(--pop-curve);
+        }
+
+        .card-inner:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .human-box { background: #fdfdfd; border: 1px solid #eee; }
+        .ia-box { 
+            background: #f0f4f8; 
+            border-left: 5px solid var(--gold);
+        }
+
+        .highlight { color: var(--gold); font-weight: 700; }
+
+        ul { list-style: none; }
+        ul li { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        ul li::before {
+            content: "◆";
+            color: var(--gold);
+            margin-right: 15px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .students-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .student-name {
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .grid, .students-list { grid-template-columns: 1fr; }
+            section { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="reveal">
+        <span class="tag" style="background: white; color: var(--primary);">Projeto Interdisciplinar</span>
+        <h1>Direito & Inteligência Artificial</h1>
+        <p>A transição da automação para o raciocínio crítico na advocacia do século XXI</p>
+    </div>
+</header>
+
+<nav id="navbar">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#impacto">Impacto</a>
+    <a href="#confronto">Confronto</a>
+    <a href="#conclusao">Conclusão</a>
+</nav>
+
+<div class="container">
+    <section id="diagnostico">
+        <span class="tag">Problemática</span>
+        <h2>O Desafio da Dependência</h2>
+        <p>O Direito é uma ciência social aplicada, baseada na <span class="highlight">argumentação e dialética</span>. Identificamos que a integração da IA na educação jurídica tem criado uma <strong>erosão do pensamento crítico</strong>. O estudante, ao utilizar modelos de linguagem como "atalhos conclusivos", abdica do processo mental de construção da tese.</p>
+    </section>
+
+    <section id="impacto">
+        <span class="tag">Riscos</span>
+        <h2>Impacto na Formação Jurídica</h2>
+        <p>A delegação do raciocínio jurídico à máquina gera três reflexos imediatos no ecossistema do Direito:</p>
+        <ul>
+            <li><strong>Atrofia Intelectual:</strong> Incapacidade de estruturar silogismos jurídicos complexos.</li>
+            <li><strong>Vulnerabilidade Ética:</strong> Risco de "alucinações" aceitas como verdade absoluta.</li>
+            <li><strong>Mecanização da Justiça:</strong> Perda da sensibilidade humana e da equidade.</li>
+        </ul>
+    </section>
+
+    <section id="confronto">
+        <span class="tag">Análise Comparativa</span>
+        <h2>Sinergia: Humano vs. Máquina</h2>
+        <div class="grid">
+            <div class="card-inner human-box">
+                <strong style="color: var(--primary); display: block; margin-bottom: 10px;">🛡️ Visão do Grupo:</strong>
+                <p>O acadêmico deve ser o <strong>Arquiteto</strong>. A IA é o <strong>Andaime</strong>. Propomos que o uso de prompts seja voltado à estruturação, nunca à substituição da análise de mérito.</p>
+            </div>
+            <div class="card-inner ia-box">
+                <strong style="color: var(--gold); display: block; margin-bottom: 10px;">🤖 Parecer da IA (Processado):</strong>
+                <p>Como suporte, minha função é otimizar a triagem de dados. A <strong>validação axiológica</strong> (juízo de valor) permanece sendo uma prerrogativa exclusiva do jurista.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="conclusao">
+        <span class="tag">Síntese</span>
+        <h2>IA na Tomada de Decisão</h2>
+        <p>Concluímos que a IA não substitui o juiz ou o advogado, mas os <strong>redefine</strong>. A qualidade jurídica não é medida pela velocidade da resposta, mas pela capacidade de questionar o algoritmo.</p>
+    </section>
+</div>
+
+<footer>
+    <span style="letter-spacing: 3px; color: var(--gold); font-weight: 600;">EQUIPE DE PESQUISA</span>
+    <div class="students-list">
+        <div class="student-name">Gustavo Jacomeli</div>
+        <div class="student-name">Gustavo Preuss</div>
+        <div class="student-name">Gustavo Santana</div>
+        <div class="student-name">Sabrina Andrade</div>
+        <div class="student-name">Nathalya Rosa</div>
+        <div class="student-name">João Gabriel Lopes</div>
+    </div>
+    <p style="margin-top: 40px; opacity: 0.5; font-size: 0.8rem;">FACULDADE INTEGRADO • DIREITO 2026</p>
+</footer>
+
+<script>
+    // 1. Animação de Revelação
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section, header .reveal').forEach(el => observer.observe(el));
+
+    // 2. Scrollspy Otimizado
+    function updateActiveNav() {
+        let current = "";
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav a");
+        
+        const scrollPosition = window.scrollY;
+        const bodyHeight = document.documentElement.scrollHeight;
+        const windowHeight = window.innerHeight;
+
+        // Regra para fim da página (ativa a última seção com prioridade)
+        if (scrollPosition + windowHeight >= bodyHeight - 50) {
+            current = "conclusao";
+        } else {
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                // Ativa quando a seção está a 200px do topo para transição suave
+                if (scrollPosition >= sectionTop - 200) {
+                    current = section.getAttribute("id");
+                }
+            });
+        }
+
+        navLinks.forEach((a) => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === `#${current}`) {
+                a.classList.add("active");
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    window.addEventListener('load', updateActiveNav);
+</script>
+
+</body>
+</html>
