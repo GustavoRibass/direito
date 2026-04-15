@@ -54,31 +54,35 @@
             color: var(--gold-light);
         }
 
+        /* MENU ATUALIZADO PARA MOBILE */
         nav {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            padding: 20px 0;
+            padding: 10px 5px;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             display: flex;
             justify-content: center;
-            gap: 25px;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap; /* Permite que os itens quebrem linha se necessário */
         }
 
         nav a {
             text-decoration: none;
             color: var(--primary);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             transition: var(--transition);
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 10px 12px;
+            border-radius: 6px;
             border-bottom: 2px solid transparent;
+            white-space: nowrap; /* Evita que o texto de um botão quebre ao meio */
         }
 
         nav a:hover, nav a.active {
@@ -196,9 +200,17 @@
             padding-bottom: 5px;
         }
 
+        /* MEDIA QUERIES ADICIONAIS */
         @media (max-width: 768px) {
             .grid, .students-list { grid-template-columns: 1fr; }
             section { padding: 30px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            nav a {
+                font-size: 0.7rem;
+                padding: 8px 10px;
+            }
         }
     </style>
 </head>
@@ -295,13 +307,11 @@
         const bodyHeight = document.documentElement.scrollHeight;
         const windowHeight = window.innerHeight;
 
-        // Regra para fim da página (ativa a última seção com prioridade)
         if (scrollPosition + windowHeight >= bodyHeight - 50) {
             current = "conclusao";
         } else {
             sections.forEach((section) => {
                 const sectionTop = section.offsetTop;
-                // Ativa quando a seção está a 200px do topo para transição suave
                 if (scrollPosition >= sectionTop - 200) {
                     current = section.getAttribute("id");
                 }
